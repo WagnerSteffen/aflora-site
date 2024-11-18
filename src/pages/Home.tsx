@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-white text-purple-400">
       <div className="relative">
-        <h1 className="text-[10rem] font-marck-script relative z-10">
+        <h1 className="text-[10rem] font-amatic-sc relative z-10">
           Comming soon...
         </h1>
       </div>
