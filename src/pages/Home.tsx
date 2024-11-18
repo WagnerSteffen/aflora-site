@@ -26,17 +26,10 @@ const Home = () => {
   }, []);
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-white text-purple-400">
-      <img
-        ref={birdRef}
-        src="/hummingbird-svg.svg"
-        alt="Hummingbird"
-        className="absolute -translate-x-1/2 -translate-y-1/2 w-10 h-10 animate-flyOnce top-[38%] left-[58%]"
-      />{" "}
       <div className="relative">
-        <h1 className="text-[10rem] font-marck-script relative z-10">Aflora</h1>
-        <h3 className="font-marck-script text-[2rem] text-blue-500 absolute top-[10rem] left-[14rem] whitespace-nowrap">
-          espaço criativo
-        </h3>
+        <h1 className="text-[10rem] font-marck-script relative z-10">
+          Comming soon...
+        </h1>
       </div>
       {/* Botões */}
       <div className="mt-10 flex gap-4">
