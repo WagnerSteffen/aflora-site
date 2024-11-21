@@ -1,34 +1,11 @@
 import { Link } from "react-router-dom";
-import { useRef, useEffect } from "react";
 
 const Home = () => {
-  const birdRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const animationEndHandler = () => {
-      if (birdRef.current) {
-        birdRef.current.classList.remove("animate-flyOnce");
-      }
-    };
-
-    if (birdRef.current) {
-      birdRef.current.addEventListener("animationend", animationEndHandler);
-    }
-
-    return () => {
-      if (birdRef.current) {
-        birdRef.current.removeEventListener(
-          "animationend",
-          animationEndHandler,
-        );
-      }
-    };
-  }, []);
   return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-white text-purple-400">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-white text-black">
       <div className="relative">
-        <h1 className="text-[10rem] font-amatic-sc relative z-10">
-          Comming soon...
+        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-amatic-sc relative z-10 text-center">
+          Coming soon...
         </h1>
       </div>
       {/* Botões */}
