@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button"; // Shadcn Button
+import { Button } from "../components/ui/button"; // Shadcn Button
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/ui/popover"; // Shadcn Popover
+} from "../components/ui/popover"; // Shadcn Popover
 
 const Home = () => {
   return (
