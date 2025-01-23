@@ -5,7 +5,7 @@ const Performance = () => {
     <div>
       <h1 className="mt-4 pt-4 text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] relative z-10 text-center">
         {" "}
-        Performances Artísticas
+        Performance Artística
       </h1>
       <p className="p-[2rem] text-center ">
         Aqui vai um exemplo de um subtexto de introdução de uma Performance
