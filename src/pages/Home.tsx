@@ -10,10 +10,10 @@ const Home = () => {
         <div className="relative mb-10">
           {" "}
           {/* Added margin-bottom */}
-          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
+          <h1 className="text-[8rem] sm:text-6xl md:text-[12rem] lg:text-[8rem] font-waterfall relative z-10 text-center">
             Aflora
           </h1>
-          <h3 className="text-lg sm:text-xl md:text-xl lg:text-[2rem] font-unbounded relative z-10 text-center">
+          <h3 className="text-[2rem] sm:text-xl md:text-4xl lg:text-[2rem] font-waterfall relative z-10 text-center">
             Espaço Criativo
           </h3>
         </div>
@@ -22,7 +22,7 @@ const Home = () => {
           <Link to="/producoes">
             <Button
               variant="default"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Produção de Eventos
             </Button>
@@ -30,7 +30,7 @@ const Home = () => {
           <Link to="/projetoseoficinas">
             <Button
               variant="default"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Projetos e Oficinas Pedagógicas
             </Button>
@@ -38,7 +38,7 @@ const Home = () => {
           <Link to="/fotografia">
             <Button
               variant="default"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Fotografia
             </Button>
@@ -46,7 +46,7 @@ const Home = () => {
           <Link to="/performance">
             <Button
               variant="default"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Performance Artística
             </Button>
@@ -54,7 +54,7 @@ const Home = () => {
           <Link to="/sobre">
             <Button
               variant="default"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Conheça o Aflora
             </Button>
