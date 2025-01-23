@@ -19,6 +19,14 @@ const Home = () => {
         </div>
         {/* Link Boxes */}
         <div className="w-full max-w-sm flex flex-col gap-4">
+          <Link to="/sobre">
+            <Button
+              variant="default"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+            >
+              Conheça o Aflora
+            </Button>
+          </Link>
           <Link to="/producoes">
             <Button
               variant="default"
@@ -49,14 +57,6 @@ const Home = () => {
               className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
             >
               Performance Artística
-            </Button>
-          </Link>
-          <Link to="/sobre">
-            <Button
-              variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
-            >
-              Conheça o Aflora
             </Button>
           </Link>
         </div>
