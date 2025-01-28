@@ -51,14 +51,12 @@ const Home = () => {
               Projetos e Oficinas Pedagógicas
             </Button>
           </Link>
-          <Link to="/fotografia">
-            <Button
-              variant="default"
-              className="w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
-            >
-              Fotografia
-            </Button>
-          </Link>
+          <a
+            href="https://wagnersteffen.alboompro.com/"
+            className="text-center py-1.5 w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold rounded-3xl"
+          >
+            Fotografia
+          </a>
           <Link to="/performance">
             <Button
               variant="default"
