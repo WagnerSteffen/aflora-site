@@ -12,6 +12,7 @@ export default {
         "dm-serif-text": ["'DM Serif Text'", "serif"],
         "dm-serif-text-italic": ["'DM Serif Text'", "serif"],
         waterfall: ["Waterfall", "cursive"],
+        "lexend-giga": ["Lexend Giga", "serif"],
       },
       fontWeight: {
         "amatic-sc-regular": 400,
@@ -19,6 +20,7 @@ export default {
         "dm-serif-text-regular": 400,
         "dm-serif-text-italic": 400,
         "waterfall-regular": 400,
+        "Lexend Giga": 400,
       },
       fontStyle: {
         "dm-serif-text-regular": "normal",
