@@ -138,7 +138,6 @@ const Projects = () => {
           {carouselsData.map((carousel, index) => {
             // Verifica se o índice é par ou ímpar para alternar a ordem
             const isEven = index % 2 === 0;
-
             return (
               <div
                 key={carousel.folderName}

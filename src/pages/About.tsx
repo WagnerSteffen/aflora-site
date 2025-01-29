@@ -2,7 +2,7 @@ import PersonInfo from "../components/personInfo"; // Importe o componente
 
 const About = () => {
   const bucketName = "aflora-static-page";
-  const wagnerImageUrl = `https://storage.googleapis.com/${bucketName}/images/sobrenos/wagner/me.png`;
+  const wagnerImageUrl = `https://storage.googleapis.com/${bucketName}/images/sobrenos/wagner/me2.png`;
   const daiaImageUrl = `https://storage.googleapis.com/${bucketName}/images/sobrenos/daia/daia.png`;
 
   return (

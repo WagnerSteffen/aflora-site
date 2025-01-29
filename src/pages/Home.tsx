@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/button";
+import { Button } from "../components/ui/Button.tsx";
 
 const Home = () => {
-  const afloraPin = "../../src/assets/Aflora_color.png";
+  const afloraPin = "../../src/assets/Aflora_color2.png";
   return (
     <div className="relative min-h-screen bg-white text-black">
       {/* Main
@@ -18,19 +18,20 @@ const Home = () => {
               className="max-h-72 max-w-auto"
             />
           </div>
-          <h1 className="text-[4rem] sm:text-6xl md:text-[12rem] lg:text-[6rem] font-lexend-giga relative z-10 text-center max-w-fit">
-            AFLORA
+          <h1 className="text-[#3361bf] text-[4rem] sm:text-6xl md:text-[12rem] lg:text-[6rem] font-lexend-giga relative z-10 text-center max-w-fit">
+            Aflora
           </h1>
-          <h3 className="text-[1rem] sm:text-xl md:text-4xl lg:text-[2rem] font-lexend-giga relative z-10 text-center">
-            Espaço Criativo
+          <h3 className="text-[#3361bf] text-[1rem] sm:text-xl md:text-4xl lg:text-[2rem] font-lexend-giga relative z-10 text-center">
+            espaço criativo
           </h3>
         </div>
         {/* Link Boxes */}
-        <div className="w-full max-w-sm flex flex-col gap-4">
+        <div className="w-18 max-w-sm flex flex-col gap-2">
           <Link to="/sobre">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              size="high"
+              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Conheça o Aflora
             </Button>
@@ -38,7 +39,8 @@ const Home = () => {
           <Link to="/producoes">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              size="lg"
+              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Produção de Eventos
             </Button>
@@ -46,21 +48,23 @@ const Home = () => {
           <Link to="/projetoseoficinas">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              size="lg"
+              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Projetos e Oficinas Pedagógicas
             </Button>
           </Link>
           <a
             href="https://wagnersteffen.alboompro.com/"
-            className="text-center py-1.5 w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold rounded-3xl"
+            className="text-center py-1.5 w-full bg-[#7802c8]  hover:bg-[#A62E9E] text-white font-bold rounded-xl"
           >
             Fotografia
           </a>
           <Link to="/performance">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              size="lg"
+              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Performance Artística
             </Button>
