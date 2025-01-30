@@ -18,10 +18,10 @@ const Home = () => {
               className="max-h-72 max-w-auto"
             />
           </div>
-          <h1 className="text-[#3361bf] text-[4rem] sm:text-6xl md:text-[12rem] lg:text-[6rem] font-lexend-giga relative z-10 text-center max-w-fit">
+          <h1 className="text-[#3361bf] text-[4rem] sm:text-6xl md:text-[12rem] lg:text-[6rem] font-work-sans relative z-10 text-center max-w-fit">
             Aflora
           </h1>
-          <h3 className="text-[#3361bf] text-[1rem] sm:text-xl md:text-4xl lg:text-[2rem] font-lexend-giga relative z-10 text-center">
+          <h3 className="text-[#3361bf] text-[1rem] sm:text-xl md:text-4xl lg:text-[2rem] font-work-sans relative z-10 text-center">
             espaço criativo
           </h3>
         </div>
