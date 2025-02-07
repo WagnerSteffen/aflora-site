@@ -8,5 +8,5 @@ declare global {
     clearInterval(handle?: number): void;
   }
 }
-
+declare module "react-scroll";
 export {};

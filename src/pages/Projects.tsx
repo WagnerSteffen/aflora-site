@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import CarouselItem from "../components/ui/carouselItem";
+import CarouselItem from "../components/ui/CarouselItem";
 
 type CarouselData = {
   folderName: string;
@@ -105,7 +105,7 @@ const Projects = () => {
     };
 
     fetchCarouselData();
-  }, [bucketName, mainFolder]);
+  }, [bucketName, mainFolder, cacheExpiration]);
 
   const carouselTexts: { [key: string]: string } = {
     Deslocamentos: "Texto sobre Deslocamentos...",
@@ -117,7 +117,6 @@ const Projects = () => {
     "Oficina de Dia das Crianças": "Texto sobre Oficina de Dia das Crianças...",
     "Oficina de Empanadas": "Texto sobre Oficina de Empanadas...",
   };
-
   return (
     <div className="relative min-h-screen bg-white text-black p-8">
       <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
@@ -147,6 +146,8 @@ const Projects = () => {
               >
                 <div className="w-full md:w-1/2 px-4">
                   <CarouselItem
+                    showTitle={false}
+                    textPosition="side"
                     folderName={carousel.folderName}
                     imageUrls={carousel.imageUrls}
                   />

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button.tsx";
 
 const Home = () => {
-  const afloraPin = "../../src/assets/Aflora_color2.png";
+  const afloraPin = "../../src/assets/Aflora_color.png";
   return (
     <div className="relative min-h-screen bg-white text-black">
       {/* Main
