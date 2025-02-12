@@ -39,7 +39,8 @@ const Carousel: React.FC<CarouselProps> = ({
   return (
     <div className="overflow-hidden relative">
       <div
-        className="flex transition-transform ease-out duration-500"
+        /* CONCERTAR ESSE TRECHO PARA CORREÇÃO DO TAMANHO DA IMAGEM*/
+        className="h-full w-96 flex transition-transform ease-out duration-500"
         style={{ transform: `translateX(-${curr * 50}%)` }}
       >
         {slides.filter(Boolean)}

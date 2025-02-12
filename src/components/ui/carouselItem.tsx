@@ -37,12 +37,15 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
       <div className="px-4">
         <Carousel autoSlide={autoPlay} autoSlideInterval={3000}>
           {imageUrls.map((url, index) => (
-            <div key={index} className="flex justify-center items-center">
+            <div
+              key={index}
+              className="min-h-96 flex justify-center items-center"
+            >
               <img
                 src={url}
                 alt={`${folderName} - Imagem ${index + 1}`}
                 loading="lazy"
-                className="object-contain "
+                className="object-contain"
               />
             </div>
           ))}
