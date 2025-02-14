@@ -7,8 +7,32 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        "amatic-sc": ["Amatic SC", "coursive"],
-        unbounded: ["unbounded", "coursive"],
+        "amatic-sc": ["'Amatic SC'", "cursive"],
+        "amatic-sc-bold": ["'Amatic SC'", "cursive"],
+        "dm-serif-text": ["'DM Serif Text'", "serif"],
+        "dm-serif-text-italic": ["'DM Serif Text'", "serif"],
+        waterfall: ["Waterfall", "cursive"],
+        "lexend-giga": ["Lexend Giga", "serif"],
+        "noto-sans-jp": ["Noto Sans JP", "serif"],
+        "work-sans": ["Work Sans", "sans-serif"],
+        "work-sans-bold": ["Work Sans", "sans-serif"],
+      },
+      fontWeight: {
+        "amatic-sc-regular": 400,
+        "amatic-sc-bold": 700,
+        "dm-serif-text-regular": 400,
+        "dm-serif-text-italic": 400,
+        "waterfall-regular": 400,
+        "lexend-giga": 400,
+        "noto-sans-jp": 400,
+        "work-sans": 400,
+        "work-sans-bold": 500,
+      },
+      fontStyle: {
+        "dm-serif-text-regular": "normal",
+        "dm-serif-text-italic": "italic",
+        "work-sans-bold": "bold",
+        "work-sans": "regular",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -59,5 +83,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate", "tailwind-scrollbar-hide")],
 };

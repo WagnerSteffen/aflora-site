@@ -1,0 +1,16 @@
+{
+  "pages": [
+    {
+      "path": "/pagina-1",
+      "bucketFolder": "pagina-1"
+    },
+    {
+      "path": "/pagina-2",
+      "bucketFolder": "pagina-2"
+    },
+    {
+      "path": "/pagina-3",
+      "bucketFolder": "pagina-3"
+    }
+  ]
+}
