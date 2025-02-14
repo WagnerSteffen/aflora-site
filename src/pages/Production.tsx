@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import CarouselItem from "../components/ui/CarouselItem";
-import { Link } from "react-scroll";
+import CarouselItem from "../components/ui/carouselItem";
+import Layout from "../components/Layout";
+import { MouseEvent as ReactMouseEvent } from "react"; // Import MouseEvent from React
+import StickyMenu from "../components/StickyMenu";
 
 type CarouselData = {
   folderName: string;
@@ -16,6 +18,10 @@ type CategoryData = {
 
 const DELIMITER = "/";
 
+const formatFolderNameForId = (folderName: string): string => {
+  return folderName.toLowerCase().replace(/\s+/g, "-");
+};
+
 const Productions = () => {
   const [categoriesData, setCategoriesData] = useState<CategoryData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -23,6 +29,17 @@ const Productions = () => {
   const mainFolder = "images/producaodeeventos";
   const cacheKey = "categoriesData";
   const cacheExpiration = 60 * 60 * 1000;
+  const navRef = useRef<HTMLDivElement>(null); // Create a ref for the nav element
+  const scrollAmount = 40; // Adjust scroll amount as needed
+  const scrollThreshold = 50; // Adjust hover threshold as needed
+  let scrollTimeout: NodeJS.Timeout | null = null; // For debouncing scroll
+
+  const categoriesMenuItems = categoriesData.map((category) => ({
+    // Assuming you have categoriesData and formatFolderNameForId for categories
+    key: category.categoryName,
+    to: formatFolderNameForId(category.categoryName),
+    label: category.categoryName,
+  }));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,94 +180,114 @@ const Productions = () => {
   }, [bucketName, mainFolder, cacheExpiration]);
 
   const categoryDescriptions: { [key: string]: string } = {
-    "Corporativo e Institucional": "Descrição para eventos corporativos...",
+    "Corporativo e Institucional": `
+No Aflora, desenhamos experiências envolventes e dinâmicas, com olhar criativo e artístico, que permita às pessoas se conectarem com os valores da sua marca e desfrutarem de momentos memoráveis.
+
+Com um olhar atento para cada detalhe, cuidamos de todas as etapas do seu evento (desde a concepção até a execução), transformando suas ideias em eventos únicos e inesquecíveis. 
+
+Deseja  um evento que surpreenda e inspire?
+Entre em contato conosco e descubra como podemos transformar sua ideia em realidade.
+`,
     "Arte e Cultura": "Descrição para eventos culturais...",
     "Eventos Particulares": "Descrição para eventos particulares...",
   };
 
   const carouselDescriptions: { [key: string]: string } = {
     Casamento: "Descrição para casamentos...",
-    "Festa de 15": "Descrição para festas de 15 anos...",
+    "Festa de 18": "Descrição para festas de 15 anos...",
   };
 
-  const formatFolderNameForId = (folderName: string): string => {
-    return folderName.toLowerCase().replace(/\s+/g, "-");
+  const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
+    // Use ReactMouseEvent here
+    const navElement = navRef.current;
+    if (!navElement) return;
+
+    clearTimeout(scrollTimeout as NodeJS.Timeout); // Clear previous timeout for debouncing
+
+    const rect = navElement.getBoundingClientRect();
+    const mouseX = e.clientX;
+
+    if (mouseX < rect.left + scrollThreshold) {
+      // Hovering near left edge
+      scrollTimeout = setTimeout(() => {
+        navElement.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      }, 10); // Small delay for smoother scroll - adjust as needed
+    } else if (mouseX > rect.right - scrollThreshold) {
+      // Hovering near right edge
+      scrollTimeout = setTimeout(() => {
+        navElement.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }, 10); // Small delay for smoother scroll - adjust as needed
+    }
   };
 
+  const handleMouseLeave = () => {
+    clearTimeout(scrollTimeout as NodeJS.Timeout); // Stop scrolling on mouse leave
+  };
   return (
-    <div className="relative min-h-screen bg-white text-black p-8">
-      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center mb-4">
-        Produção de Eventos
-      </h1>
-      <p className="text-center mb-8 max-w-2xl mx-auto">
-        Esse é um exemplo de subtexto. Aqui pode conter informações diversas
-        sobre os tipos de eventos que realizamos.
-      </p>
+    <Layout>
+      <div className="relative min-h-screen bg-white text-black p-8">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center mb-4">
+          Produção de Eventos
+        </h1>
+        <p className="text-center mb-8 max-w-2xl mx-auto">
+          Esse é um exemplo de subtexto. Aqui pode conter informações diversas
+          sobre os tipos de eventos que realizamos.
+        </p>
 
-      {/* Sticky Navigation */}
-      <nav className="sticky top-0 z-20 bg-white border-b mb-8 -mx-8 px-8">
-        <div className="flex overflow-x-auto space-x-4 py-2">
-          {categoriesData.map((category) => (
-            <div key={category.categoryName} className="flex flex-col">
-              <Link
-                to={formatFolderNameForId(category.categoryName)}
-                smooth={true}
-                duration={500}
-                offset={-70}
-                className="px-4 py-2 whitespace-nowrap hover:bg-gray-100 rounded"
-              >
+        {/* Sticky Navigation */}
+        <StickyMenu
+          navRef={navRef} // Use navRef para o componente StickyMenu
+          style={{ top: "64px" }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          menuItems={categoriesMenuItems} // Use categoriesMenuItems que você já definiu
+          scrollbarHide={true}
+        />
+
+        {isLoading && (
+          <div className="text-center">
+            <p>Carregando...</p>
+          </div>
+        )}
+
+        {!isLoading &&
+          categoriesData.map((category) => (
+            <section
+              key={category.categoryName}
+              id={formatFolderNameForId(category.categoryName)}
+              className="mb-16 scroll-mt-16"
+            >
+              <h2 className="text-3xl font-bold mb-4 text-center">
                 {category.categoryName}
-              </Link>
-            </div>
+              </h2>
+              <p className="mb-8 text-gray-600 max-w-3xl mx-auto text-center">
+                {categoryDescriptions[category.categoryName] ||
+                  "Descrição da categoria..."}
+              </p>
+              {category.carousels && category.carousels.length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
+                  {category.carousels.map((carousel) => (
+                    <CarouselItem
+                      key={carousel.folderName}
+                      folderName={carousel.folderName}
+                      imageUrls={carousel.imageUrls}
+                      showTitle={true}
+                      textPosition="below"
+                      descriptions={carouselDescriptions}
+                    />
+                  ))}
+                </div>
+              )}
+            </section>
           ))}
-        </div>
-      </nav>
 
-      {isLoading && (
-        <div className="text-center">
-          <p>Carregando...</p>
-        </div>
-      )}
-
-      {!isLoading &&
-        categoriesData.map((category) => (
-          <section
-            key={category.categoryName}
-            id={formatFolderNameForId(category.categoryName)}
-            className="mb-16 scroll-mt-16"
-          >
-            <h2 className="text-3xl font-bold mb-4 text-center">
-              {category.categoryName}
-            </h2>
-            <p className="mb-8 text-gray-600 max-w-3xl mx-auto text-center">
-              {categoryDescriptions[category.categoryName] ||
-                "Descrição da categoria..."}
-            </p>
-
-            {/* Renderizar carrosséis diretamente se não houver subcategorias */}
-            {category.carousels && category.carousels.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {category.carousels.map((carousel) => (
-                  <CarouselItem
-                    key={carousel.folderName}
-                    folderName={carousel.folderName}
-                    imageUrls={carousel.imageUrls}
-                    showTitle={true}
-                    textPosition="below"
-                    descriptions={carouselDescriptions}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        ))}
-
-      {!isLoading && categoriesData.length === 0 && (
-        <div className="text-center">
-          <p>Nenhum conteúdo encontrado.</p>
-        </div>
-      )}
-    </div>
+        {!isLoading && categoriesData.length === 0 && (
+          <div className="text-center">
+            <p>Nenhum conteúdo encontrado.</p>
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 };
 

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button.tsx";
+import { Button } from "../components/ui/button.tsx";
 
 const Home = () => {
-  const afloraPin = "../../src/assets/Aflora_color.png";
+  const afloraPin = "../../src/assets/aflora_symbol.png";
   return (
     <div className="relative min-h-screen bg-white text-black">
       {/* Main
@@ -30,7 +30,7 @@ const Home = () => {
           <Link to="/sobre">
             <Button
               variant="default"
-              size="high"
+              size="default"
               className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Conheça o Aflora

@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Carousel from "./Carousel";
-import { useInView } from "react-intersection-observer";
+import React from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem as ShadcnCarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "../ui/Carousel.tsx";
 
 interface CarouselItemProps {
   folderName: string;
@@ -17,38 +22,39 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
   textPosition = "below",
   descriptions = {},
 }) => {
-  const [autoPlay, setAutoPlay] = useState(false);
-  const { ref, inView } = useInView({
-    threshold: 0.5,
-  });
-
-  useEffect(() => {
-    setAutoPlay(inView);
-  }, [inView]);
-
   const description = descriptions[folderName] || "Descrição do carrossel...";
 
   return (
-    <div ref={ref} className="mb-8">
+    <div className="mb-8">
       {showTitle && (
         <h3 className="text-xl font-bold mb-2 text-center">{folderName}</h3>
       )}
 
       <div className="px-4">
-        <Carousel autoSlide={autoPlay} autoSlideInterval={3000}>
-          {imageUrls.map((url, index) => (
-            <div
-              key={index}
-              className="min-h-96 flex justify-center items-center"
-            >
-              <img
-                src={url}
-                alt={`${folderName} - Imagem ${index + 1}`}
-                loading="lazy"
-                className="object-contain"
-              />
-            </div>
-          ))}
+        <Carousel
+          opts={{
+            loop: true,
+          }}
+        >
+          <CarouselContent>
+            {imageUrls.map((url, index) => (
+              <ShadcnCarouselItem key={index} className="w-full aspect-square">
+                <div
+                  className="
+                       h-full w-full flex justify-center items-center"
+                >
+                  <img
+                    src={url}
+                    alt={`${folderName} - Imagem ${index + 1}`}
+                    loading="lazy"
+                    className="object-contain max-h-full max-w-full"
+                  />
+                </div>
+              </ShadcnCarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
 

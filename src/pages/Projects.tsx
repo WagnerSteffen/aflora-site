@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import CarouselItem from "../components/ui/CarouselItem";
+import Layout from "../components/Layout.tsx";
+import { useState, useEffect, useRef } from "react";
+import CarouselItem from "../components/ui/carouselItem";
+import { MouseEvent as ReactMouseEvent } from "react"; // Import MouseEvent from React
+import StickyMenu from "../components/StickyMenu.tsx"; // Certifique-se que o caminho está correto
 
 type CarouselData = {
   folderName: string;
@@ -9,6 +11,10 @@ type CarouselData = {
 
 const DELIMITER = "/";
 
+const formatFolderNameForId = (folderName: string): string => {
+  return folderName.toLowerCase().replace(/\s+/g, "-");
+};
+
 const Projects = () => {
   const [carouselsData, setCarouselsData] = useState<CarouselData>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -16,6 +22,16 @@ const Projects = () => {
   const mainFolder = "images/oficinaseprojetos/MEA";
   const cacheKey = "carouselsData";
   const cacheExpiration = 60 * 60 * 1000; // 1 hora em milissegundos
+  const navRef = useRef<HTMLDivElement>(null); // Create a ref for the nav element
+  const scrollAmount = 40; // Adjust scroll amount as needed
+  const scrollThreshold = 50; // Adjust hover threshold as needed
+  let scrollTimeout: NodeJS.Timeout | null = null; // For debouncing scroll
+
+  const carouselMenuItems = carouselsData.map((carousel) => ({
+    key: carousel.folderName,
+    to: formatFolderNameForId(carousel.folderName),
+    label: carousel.folderName,
+  }));
 
   useEffect(() => {
     const fetchCarouselData = async () => {
@@ -117,59 +133,102 @@ const Projects = () => {
     "Oficina de Dia das Crianças": "Texto sobre Oficina de Dia das Crianças...",
     "Oficina de Empanadas": "Texto sobre Oficina de Empanadas...",
   };
+
+  const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
+    // Use ReactMouseEvent here
+    const navElement = navRef.current;
+    if (!navElement) return;
+
+    clearTimeout(scrollTimeout as NodeJS.Timeout); // Clear previous timeout for debouncing
+
+    const rect = navElement.getBoundingClientRect();
+    const mouseX = e.clientX;
+
+    if (mouseX < rect.left + scrollThreshold) {
+      // Hovering near left edge
+      scrollTimeout = setTimeout(() => {
+        navElement.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      }, 10); // Small delay for smoother scroll - adjust as needed
+    } else if (mouseX > rect.right - scrollThreshold) {
+      // Hovering near right edge
+      scrollTimeout = setTimeout(() => {
+        navElement.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }, 10); // Small delay for smoother scroll - adjust as needed
+    }
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(scrollTimeout as NodeJS.Timeout); // Stop scrolling on mouse leave
+  };
+
   return (
-    <div className="relative min-h-screen bg-white text-black p-8">
-      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
-        Projetos e Oficinas
-      </h1>
-      <p className="text-center mb-4 mt-4">
-        Esse é um exemplo de subtexto. Aqui pode conter informações diversas
-      </p>
+    <Layout>
+      {" "}
+      <div className="relative min-h-screen bg-white text-black p-8">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
+          Projetos e Oficinas
+        </h1>
+        <p className="text-center mb-4 mt-4">
+          Esse é um exemplo de subtexto. Aqui pode conter informações diversas
+        </p>
 
-      {isLoading && (
-        <div className="text-center">
-          <p>Carregando...</p>
-        </div>
-      )}
+        {/* Sticky Navigation - Carousels Menu - Agora usando StickyMenu */}
+        <StickyMenu
+          navRef={navRef} // Use a mesma navRef que já estava sendo usada
+          style={{ top: "64px" }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          menuItems={carouselMenuItems} // Passa o array de menuItems que criamos
+          scrollbarHide={true}
+        />
 
-      {!isLoading && carouselsData.length > 0 && (
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          {carouselsData.map((carousel, index) => {
-            // Verifica se o índice é par ou ímpar para alternar a ordem
-            const isEven = index % 2 === 0;
-            return (
-              <div
-                key={carousel.folderName}
-                className={`flex flex-col md:flex-row items-center mb-12 ${
-                  !isEven && "md:flex-row-reverse"
-                }`}
-              >
-                <div className="w-full md:w-1/2 px-4">
-                  <CarouselItem
-                    showTitle={false}
-                    textPosition="side"
-                    folderName={carousel.folderName}
-                    imageUrls={carousel.imageUrls}
-                  />
+        {isLoading && (
+          <div className="text-center">
+            <p>Carregando...</p>
+          </div>
+        )}
+
+        {!isLoading && carouselsData.length > 0 && (
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+            {carouselsData.map((carousel, index) => {
+              // Verifica se o índice é par ou ímpar para alternar a ordem
+              const isEven = index % 2 === 0;
+              return (
+                <div
+                  key={carousel.folderName}
+                  id={formatFolderNameForId(carousel.folderName)}
+                  className={`flex flex-col md:flex-row items-center mb-12 ${
+                    !isEven && "md:flex-row-reverse"
+                  }`}
+                >
+                  <div className="w-full md:w-1/2 px-4">
+                    <CarouselItem
+                      showTitle={false}
+                      textPosition="side"
+                      folderName={carousel.folderName}
+                      imageUrls={carousel.imageUrls}
+                      descriptions={carouselTexts}
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-4">
+                    <p className="text-center">
+                      {carouselTexts[carousel.folderName] ||
+                        "Texto padrão para este carrossel..."}
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full md:w-1/2 px-4">
-                  <p className="text-center">
-                    {carouselTexts[carousel.folderName] ||
-                      "Texto padrão para este carrossel..."}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+              );
+            })}
+          </div>
+        )}
 
-      {!isLoading && carouselsData.length === 0 && (
-        <div className="text-center">
-          <p>Nenhum carrossel encontrado.</p>
-        </div>
-      )}
-    </div>
+        {!isLoading && carouselsData.length === 0 && (
+          <div className="text-center">
+            <p>Nenhum carrossel encontrado.</p>
+          </div>
+        )}
+      </div>
+    </Layout>
   );
 };
 
