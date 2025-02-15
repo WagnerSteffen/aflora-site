@@ -7,21 +7,20 @@ const Home = () => {
     <div className="relative min-h-screen bg-white text-black">
       {/* Main
       Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-16 sm:pt-0">
+      <div className="flex items-center justify-center  pt-8">
+        <img
+          src={afloraPin}
+          alt="pin do aflora"
+          className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
+        />
+      </div>
+      <div className="flex flex-col text-center items-center justify-top min-h-screen px-4 sm:pt-0">
         {/* Heading */}
         <div className="relative mb-10">
-          {" "}
-          <div className="flex items-center justify-center">
-            <img
-              src={afloraPin}
-              alt="pin do aflora"
-              className="max-h-72 max-w-auto"
-            />
-          </div>
-          <h1 className="text-[#3361bf] text-[4rem] sm:text-6xl md:text-[12rem] lg:text-[6rem] font-work-sans relative z-10 text-center max-w-fit">
+          <h1 className="text-[#3361bf] max-h-[6.7rem] text-[6rem] sm:text-[6rem] md:text-[6rem] lg:text-[6rem] font-work-sans relative z-10">
             Aflora
           </h1>
-          <h3 className="text-[#3361bf] text-[1rem] sm:text-xl md:text-4xl lg:text-[2rem] font-work-sans relative z-10 text-center">
+          <h3 className="text-[#3361bf] text-[2rem] sm:text-[2rem] md:text-[2rem] lg:text-[2rem] font-work-sans relative z-10  ">
             espaço criativo
           </h3>
         </div>
@@ -56,7 +55,7 @@ const Home = () => {
           </Link>
           <a
             href="https://wagnersteffen.alboompro.com/"
-            className="text-center py-1.5 w-full bg-[#7802c8]  hover:bg-[#A62E9E] text-white font-bold rounded-xl"
+            className="  py-1.5 w-full bg-[#7802c8]  hover:bg-[#A62E9E] text-white font-bold rounded-xl"
           >
             Fotografia
           </a>
