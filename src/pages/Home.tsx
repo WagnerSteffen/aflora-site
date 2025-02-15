@@ -14,7 +14,7 @@ const Home = () => {
           className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
         />
       </div>
-      <div className="flex flex-col text-center items-center justify-top min-h-screen px-4 sm:pt-0">
+      <div className="flex flex-col text-center items-center justify-top min-h-screen px-4 ">
         {/* Heading */}
         <div className="relative mb-10">
           <h1 className="text-[#3361bf] max-h-[6.7rem] text-[6rem] sm:text-[6rem] md:text-[6rem] lg:text-[6rem] font-work-sans relative z-10">
@@ -25,12 +25,12 @@ const Home = () => {
           </h3>
         </div>
         {/* Link Boxes */}
-        <div className="w-18 max-w-sm flex flex-col gap-2">
+        <div className="flex flex-col gap-2">
           <Link to="/sobre">
             <Button
               variant="default"
               size="default"
-              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Conheça o Aflora
             </Button>
@@ -39,7 +39,7 @@ const Home = () => {
             <Button
               variant="default"
               size="lg"
-              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Produção de Eventos
             </Button>
@@ -48,22 +48,24 @@ const Home = () => {
             <Button
               variant="default"
               size="lg"
-              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Projetos e Oficinas Pedagógicas
             </Button>
           </Link>
-          <a
-            href="https://wagnersteffen.alboompro.com/"
-            className="  py-1.5 w-full bg-[#7802c8]  hover:bg-[#A62E9E] text-white font-bold rounded-xl"
+          <Button
+            variant="default"
+            size="lg"
+            className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+            asChild
           >
-            Fotografia
-          </a>
+            <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
+          </Button>
           <Link to="/performance">
             <Button
               variant="default"
               size="lg"
-              className="w-full bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Performance Artística
             </Button>
