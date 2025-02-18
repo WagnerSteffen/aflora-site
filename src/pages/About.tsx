@@ -1,11 +1,12 @@
 import Layout from "../components/Layout";
 import PersonInfo from "../components/personInfo"; // Importe o componente
+import wagnerText from "../assets/minibio_wagner.txt?raw";
+import daiaText from "../assets/minibio_daia.txt?raw";
 
 const About = () => {
   const bucketName = "aflora-static-page";
   const wagnerImageUrl = `https://storage.googleapis.com/${bucketName}/images/sobrenos/wagner/me2.png`;
   const daiaImageUrl = `https://storage.googleapis.com/${bucketName}/images/sobrenos/daia/daia.png`;
-
   return (
     <Layout>
       <div className="relative min-h-screen bg-white text-black pt-4">
@@ -16,7 +17,7 @@ const About = () => {
           <PersonInfo
             imageUrl={wagnerImageUrl}
             name="Wagner"
-            text="Olá, eu sou o Wagner! Sou apaixonado por..."
+            text={wagnerText}
             imgAlign="start"
             imageOnLeft={false}
           />
@@ -25,7 +26,7 @@ const About = () => {
           <PersonInfo
             imageUrl={daiaImageUrl}
             name="Daia"
-            text="Olá, eu sou a Daia! Sou apaixonada por..."
+            text={daiaText}
             imgAlign="center"
             imageOnLeft={true}
           />
