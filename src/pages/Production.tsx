@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CarouselItem from "../components/ui/carouselItem";
 import Layout from "../components/Layout";
-import { MouseEvent as ReactMouseEvent } from "react"; // Import MouseEvent from React
+import { MouseEvent as ReactMouseEvent } from "react";
 import StickyMenu from "../components/StickyMenu";
 
 type CarouselData = {
@@ -13,45 +13,148 @@ type CarouselData = {
 type CategoryData = {
   categoryName: string;
   carousels: CarouselData[];
-  subcategories: CategoryData[]; // Subcategorias are now required
+  subcategories: string[]; // Changed to string array
 };
 
 const DELIMITER = "/";
+const BUCKET_NAME = "aflora-static-page";
+const MAIN_FOLDER = "images/producaodeeventos";
+const CACHE_KEY = "categoriesData";
+const CACHE_EXPIRATION = 60 * 60 * 1000;
 
 const formatFolderNameForId = (folderName: string): string => {
   return folderName.toLowerCase().replace(/\s+/g, "-");
 };
 
+// Extracts the parent folder name from a URL.
+function parentNameExtractor(url: string): string | null {
+  const match = url.match(/\/([^/]+)\/[^/]+\/?$/);
+  return match ? match[1] : null;
+}
+
+// --- Helper Functions (for fetching data) ---
+
+async function fetchDataFromGCS(url: string): Promise<string> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch: ${response.status} ${response.statusText}`,
+    );
+  }
+  return response.text();
+}
+
+async function fetchAndParseXML(url: string): Promise<Document> {
+  const xmlText = await fetchDataFromGCS(url);
+  return new DOMParser().parseFromString(xmlText, "text/xml");
+}
+
+function extractImageUrls(doc: Document, bucketName: string): string[] {
+  return Array.from(doc.querySelectorAll("Contents"))
+    .filter((content) => {
+      const key = content.querySelector("Key")?.textContent;
+      return key && !key.endsWith("/");
+    })
+    .map((content) => {
+      const key = content.querySelector("Key")?.textContent;
+      return key ? `https://storage.googleapis.com/${bucketName}/${key}` : "";
+    })
+    .filter((url) => url !== "") as string[];
+}
+//Modified fetchCarousels
+async function fetchCarousels(
+  bucketName: string,
+  categoryPrefix: string,
+): Promise<CarouselData[]> {
+  const carouselsUrl = `https://storage.googleapis.com/${bucketName}?delimiter=${DELIMITER}&prefix=${MAIN_FOLDER}/${categoryPrefix}/`;
+  const carouselsDoc = await fetchAndParseXML(carouselsUrl);
+
+  const carousels = await Promise.all(
+    Array.from(carouselsDoc.querySelectorAll("CommonPrefixes > Prefix")).map(
+      async (carouselElement) => {
+        const carouselPrefix = carouselElement.textContent?.trim();
+        if (!carouselPrefix) return null;
+
+        const imagesUrl = `https://storage.googleapis.com/${bucketName}?prefix=${carouselPrefix}`;
+        const imagesDoc = await fetchAndParseXML(imagesUrl);
+        const imageUrls = extractImageUrls(imagesDoc, bucketName);
+
+        // Use parentNameExtractor here
+        const folderName =
+          imageUrls.length > 0 ? parentNameExtractor(imageUrls[0]) : null;
+
+        return {
+          folderName: folderName || "", // Use extracted name, fallback to empty string
+          imageUrls,
+        };
+      },
+    ),
+  );
+  return carousels.filter((c): c is CarouselData => c !== null);
+}
+
+// Modified fetchCategories
+async function fetchCategories(
+  bucketName: string,
+  mainFolder: string,
+): Promise<CategoryData[]> {
+  const categoriesUrl = `https://storage.googleapis.com/${bucketName}?delimiter=${DELIMITER}&prefix=${mainFolder}/`;
+  const categoriesDoc = await fetchAndParseXML(categoriesUrl);
+
+  const categories = await Promise.all(
+    Array.from(categoriesDoc.querySelectorAll("CommonPrefixes > Prefix")).map(
+      async (prefixElement) => {
+        const categoryPrefix = prefixElement.textContent
+          ?.replace(mainFolder + "/", "")
+          ?.replace(/\/$/, "");
+        if (!categoryPrefix || categoryPrefix.includes("/")) {
+          return null; // Skip subcategories or invalid prefixes
+        }
+
+        const carousels = await fetchCarousels(bucketName, categoryPrefix);
+
+        // Extract subcategories from carousels
+        const subcategories = carousels
+          .map((carousel) => carousel.folderName)
+          .filter((name) => !!name);
+
+        return {
+          categoryName: categoryPrefix,
+          carousels: carousels,
+          subcategories: subcategories, // Use the extracted subcategories
+        } as CategoryData;
+      },
+    ),
+  );
+
+  return categories.filter((c): c is CategoryData => c !== null);
+}
+
 const Productions = () => {
   const [categoriesData, setCategoriesData] = useState<CategoryData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const bucketName = "aflora-static-page";
-  const mainFolder = "images/producaodeeventos";
-  const cacheKey = "categoriesData";
-  const cacheExpiration = 60 * 60 * 1000;
-  const navRef = useRef<HTMLDivElement>(null); // Create a ref for the nav element
-  const scrollAmount = 40; // Adjust scroll amount as needed
-  const scrollThreshold = 50; // Adjust hover threshold as needed
-  let scrollTimeout: NodeJS.Timeout | null = null; // For debouncing scroll
+  const navRef = useRef<HTMLDivElement>(null);
+  const scrollAmount = 40;
+  const scrollThreshold = 50;
+  let scrollTimeout: NodeJS.Timeout | null = null;
 
   const categoriesMenuItems = categoriesData.map((category) => ({
-    // Assuming you have categoriesData and formatFolderNameForId for categories
     key: category.categoryName,
     to: formatFolderNameForId(category.categoryName),
     label: category.categoryName,
   }));
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataAndCache = async () => {
       setIsLoading(true);
 
-      const cachedData = localStorage.getItem(cacheKey);
-      const cachedTimestamp = localStorage.getItem(cacheKey + "_timestamp");
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      const cachedTimestamp = localStorage.getItem(CACHE_KEY + "_timestamp");
 
       if (
         cachedData &&
         cachedTimestamp &&
-        Date.now() - Number(cachedTimestamp) < cacheExpiration
+        Date.now() - Number(cachedTimestamp) < CACHE_EXPIRATION
       ) {
         setCategoriesData(JSON.parse(cachedData));
         setIsLoading(false);
@@ -59,116 +162,10 @@ const Productions = () => {
       }
 
       try {
-        // Fetch categories (first-level folders under mainFolder)
-        const categoriesUrl = `https://storage.googleapis.com/${bucketName}?delimiter=${DELIMITER}&prefix=${mainFolder}/`;
-        const categoriesResponse = await fetch(categoriesUrl);
-
-        if (!categoriesResponse.ok) {
-          throw new Error(
-            `Failed to fetch categories: ${categoriesResponse.status} ${categoriesResponse.statusText}`,
-          );
-        }
-
-        const categoriesXml = await categoriesResponse.text();
-        const categoriesDoc = new DOMParser().parseFromString(
-          categoriesXml,
-          "text/xml",
-        );
-
-        const categories = await Promise.all(
-          Array.from(
-            categoriesDoc.querySelectorAll("CommonPrefixes > Prefix"),
-          ).map(async (prefixElement) => {
-            const categoryPrefix = prefixElement.textContent
-              ?.replace(mainFolder + "/", "")
-              ?.replace(/\/$/, "");
-            if (!categoryPrefix) return null;
-
-            // Check if it's a main category or a subcategory
-            if (!categoryPrefix.includes("/")) {
-              // Main category: Fetch carousels (subfolders within category)
-              const carouselsUrl = `https://storage.googleapis.com/${bucketName}?delimiter=${DELIMITER}&prefix=${mainFolder}/${categoryPrefix}/`;
-              const carouselsResponse = await fetch(carouselsUrl);
-
-              if (!carouselsResponse.ok) {
-                throw new Error(
-                  `Failed to fetch carousels: ${carouselsResponse.status} ${carouselsResponse.statusText}`,
-                );
-              }
-
-              const carouselsXml = await carouselsResponse.text();
-              const carouselsDoc = new DOMParser().parseFromString(
-                carouselsXml,
-                "text/xml",
-              );
-
-              const carousels = await Promise.all(
-                Array.from(
-                  carouselsDoc.querySelectorAll("CommonPrefixes > Prefix"),
-                ).map(async (carouselElement) => {
-                  const carouselPrefix = carouselElement.textContent?.trim();
-                  if (!carouselPrefix) return null;
-
-                  // Fetch images for carousel
-                  const imagesResponse = await fetch(
-                    `https://storage.googleapis.com/${bucketName}?prefix=${carouselPrefix}`,
-                  );
-
-                  if (!imagesResponse.ok) {
-                    throw new Error(
-                      `Failed to fetch images: ${imagesResponse.status} ${imagesResponse.statusText}`,
-                    );
-                  }
-
-                  const imagesXml = await imagesResponse.text();
-                  const imagesDoc = new DOMParser().parseFromString(
-                    imagesXml,
-                    "text/xml",
-                  );
-
-                  const imageUrls = Array.from(
-                    imagesDoc.querySelectorAll("Contents"),
-                  )
-                    .filter((content) => {
-                      const key = content.querySelector("Key")?.textContent;
-                      return key && !key.endsWith("/");
-                    })
-                    .map((content) => {
-                      const key = content.querySelector("Key")?.textContent;
-                      return key
-                        ? `https://storage.googleapis.com/${bucketName}/${key}`
-                        : "";
-                    })
-                    .filter((url) => url !== "") as string[];
-
-                  return {
-                    folderName: carouselPrefix.split("/").pop() || "",
-                    imageUrls,
-                  };
-                }),
-              );
-
-              return {
-                categoryName: categoryPrefix,
-                carousels: carousels.filter(
-                  (c): c is CarouselData => c !== null,
-                ),
-                subcategories: [], // No subcategories for main categories
-              } as CategoryData; // Now we cast it as CategoryData
-            } else {
-              return null; // Skip subcategories for now
-            }
-          }),
-        );
-
-        // Filter out null values and assert the type
-        const validCategories = categories.filter(
-          (c): c is CategoryData => c !== null,
-        );
-
+        const validCategories = await fetchCategories(BUCKET_NAME, MAIN_FOLDER);
         setCategoriesData(validCategories);
-        localStorage.setItem(cacheKey, JSON.stringify(validCategories));
-        localStorage.setItem(cacheKey + "_timestamp", Date.now().toString());
+        localStorage.setItem(CACHE_KEY, JSON.stringify(validCategories));
+        localStorage.setItem(CACHE_KEY + "_timestamp", Date.now().toString());
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -176,16 +173,16 @@ const Productions = () => {
       }
     };
 
-    fetchData();
-  }, [bucketName, mainFolder, cacheExpiration]);
+    fetchDataAndCache();
+  }, []);
 
   const categoryDescriptions: { [key: string]: string } = {
     "Corporativo e Institucional": `
 No Aflora, desenhamos experiências envolventes e dinâmicas, com olhar criativo e artístico, que permita às pessoas se conectarem com os valores da sua marca e desfrutarem de momentos memoráveis.
 
-Com um olhar atento para cada detalhe, cuidamos de todas as etapas do seu evento (desde a concepção até a execução), transformando suas ideias em eventos únicos e inesquecíveis. 
+Com um olhar atento para cada detalhe, cuidamos de todas as etapas do seu evento (desde a concepção até a execução), transformando suas ideias em eventos únicos e inesquecíveis.
 
-Deseja  um evento que surpreenda e inspire?
+Deseja um evento que surpreenda e inspire?
 Entre em contato conosco e descubra como podemos transformar sua ideia em realidade.
 `,
     "Arte e Cultura": "Descrição para eventos culturais...",
@@ -198,31 +195,29 @@ Entre em contato conosco e descubra como podemos transformar sua ideia em realid
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
-    // Use ReactMouseEvent here
     const navElement = navRef.current;
     if (!navElement) return;
 
-    clearTimeout(scrollTimeout as NodeJS.Timeout); // Clear previous timeout for debouncing
+    clearTimeout(scrollTimeout as NodeJS.Timeout);
 
     const rect = navElement.getBoundingClientRect();
     const mouseX = e.clientX;
 
     if (mouseX < rect.left + scrollThreshold) {
-      // Hovering near left edge
       scrollTimeout = setTimeout(() => {
         navElement.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      }, 10); // Small delay for smoother scroll - adjust as needed
+      }, 10);
     } else if (mouseX > rect.right - scrollThreshold) {
-      // Hovering near right edge
       scrollTimeout = setTimeout(() => {
         navElement.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }, 10); // Small delay for smoother scroll - adjust as needed
+      }, 10);
     }
   };
 
   const handleMouseLeave = () => {
-    clearTimeout(scrollTimeout as NodeJS.Timeout); // Stop scrolling on mouse leave
+    clearTimeout(scrollTimeout as NodeJS.Timeout);
   };
+
   return (
     <Layout>
       <div className="relative min-h-screen bg-white text-black p-8">
@@ -234,13 +229,12 @@ Entre em contato conosco e descubra como podemos transformar sua ideia em realid
           sobre os tipos de eventos que realizamos.
         </p>
 
-        {/* Sticky Navigation */}
         <StickyMenu
-          navRef={navRef} // Use navRef para o componente StickyMenu
+          navRef={navRef}
           style={{ top: "64px" }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          menuItems={categoriesMenuItems} // Use categoriesMenuItems que você já definiu
+          menuItems={categoriesMenuItems}
           scrollbarHide={true}
         />
 
