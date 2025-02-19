@@ -1,6 +1,6 @@
 import Layout from "../components/Layout.tsx";
 import { useState, useEffect, useRef } from "react";
-import CarouselItem from "../components/ui/carouselItem";
+import CarouselItem from "../components/Carousel/CarouselItem";
 import { MouseEvent as ReactMouseEvent } from "react"; // Import MouseEvent from React
 import StickyMenu from "../components/StickyMenu.tsx"; // Certifique-se que o caminho está correto
 

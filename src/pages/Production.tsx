@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import CarouselItem from "../components/ui/carouselItem";
+import CarouselItem from "../components/Carousel/CarouselItem";
 import Layout from "../components/Layout";
 import { MouseEvent as ReactMouseEvent } from "react";
 import StickyMenu from "../components/StickyMenu";

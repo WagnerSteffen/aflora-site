@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import PersonInfo from "../components/personInfo"; // Importe o componente
+import PersonInfo from "../components/PersonInfo"; // Importe o componente
 import wagnerText from "../assets/minibio_wagner.txt?raw";
 import daiaText from "../assets/minibio_daia.txt?raw";
 

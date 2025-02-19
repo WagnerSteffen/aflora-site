@@ -1,11 +1,13 @@
-import React from "react";
+// CarouselItem.tsx
+import React, { useState } from "react"; // Import useState
 import {
   Carousel,
   CarouselContent,
   CarouselItem as ShadcnCarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "../ui/Carousel.tsx";
+} from "./Carousel.tsx";
+import FullScreenCarousel from "../FullScreenCarousel/FullScreenCarousel.tsx"; // Import the new component
 
 interface CarouselItemProps {
   folderName: string;
@@ -15,7 +17,7 @@ interface CarouselItemProps {
   descriptions?: { [key: string]: string };
 }
 
-const CarouselItem: React.FC<CarouselItemProps> = ({
+const CarouselItems: React.FC<CarouselItemProps> = ({
   folderName,
   imageUrls,
   showTitle = true,
@@ -23,6 +25,17 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
   descriptions = {},
 }) => {
   const description = descriptions[folderName] || "Descrição do carrossel...";
+  const [fullScreenOpen, setFullScreenOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const openFullScreen = (index: number) => {
+    setSelectedImageIndex(index);
+    setFullScreenOpen(true);
+  };
+
+  const closeFullScreen = () => {
+    setFullScreenOpen(false);
+  };
 
   return (
     <div className="mb-8">
@@ -41,7 +54,8 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
               <ShadcnCarouselItem key={index} className="w-full aspect-square">
                 <div
                   className="
-                       h-full w-full flex justify-center items-center"
+                                        h-full w-full flex justify-center items-center cursor-pointer"
+                  onClick={() => openFullScreen(index)} // Open fullscreen on image click
                 >
                   <img
                     src={url}
@@ -63,8 +77,17 @@ const CarouselItem: React.FC<CarouselItemProps> = ({
           <p className="text-center">{description}</p>
         </div>
       )}
+
+      {/* FullScreenCarousel */}
+      {fullScreenOpen && (
+        <FullScreenCarousel
+          imageUrls={imageUrls}
+          initialIndex={selectedImageIndex}
+          onClose={closeFullScreen}
+        />
+      )}
     </div>
   );
 };
 
-export default CarouselItem;
+export default CarouselItems;

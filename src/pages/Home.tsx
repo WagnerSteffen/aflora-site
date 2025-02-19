@@ -4,17 +4,17 @@ import afloraPin from "../assets/aflora_symbol.png";
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen bg-white text-black">
+    <div className="relative h-full bg-[#f9fafb] text-black">
       {/* Main
       Content */}
-      <div className="flex items-center justify-center  pt-8">
+      <div className="flex items-center justify-center pt-8">
         <img
           src={afloraPin}
           alt="pin do aflora"
           className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
         />
       </div>
-      <div className="flex flex-col text-center items-center justify-top min-h-screen px-4 ">
+      <div className="flex flex-col text-center items-center justify-top px-4 ">
         {/* Heading */}
         <div className="relative mb-10">
           <h1 className="text-[#3361bf] max-h-[6.7rem] text-[6rem] sm:text-[6rem] md:text-[6rem] lg:text-[6rem] font-work-sans relative z-10">
@@ -61,15 +61,15 @@ const Home = () => {
           >
             <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
           </Button>
-          <Link to="/performance">
-            <Button
-              variant="default"
-              size="lg"
-              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
-            >
-              Performance Artística
-            </Button>
-          </Link>
+          {/* <Link to="/performance"> **/}
+          {/*    <Button **/}
+          {/*     variant="default" **/}
+          {/*    size="lg" **/}
+          {/*    className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl" **/}
+          {/*     > **/}
+          {/*       Performance Artística **/}
+          {/*    </Button> **/}
+          {/*  </Link> **/}
         </div>
       </div>
     </div>
