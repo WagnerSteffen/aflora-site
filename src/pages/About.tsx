@@ -18,7 +18,8 @@ const About = () => {
             imageUrl={wagnerImageUrl}
             name="Wagner"
             text={wagnerText}
-            imgAlign="start"
+            textAlign="justify"
+            imgAlign="center"
             imageOnLeft={false}
           />
         </div>
@@ -27,6 +28,7 @@ const About = () => {
             imageUrl={daiaImageUrl}
             name="Daia"
             text={daiaText}
+            textAlign="justify"
             imgAlign="center"
             imageOnLeft={true}
           />
