@@ -185,13 +185,26 @@ Com um olhar atento para cada detalhe, cuidamos de todas as etapas do seu evento
 Deseja um evento que surpreenda e inspire?
 Entre em contato conosco e descubra como podemos transformar sua ideia em realidade.
 `,
-    "Arte e Cultura": "Descrição para eventos culturais...",
-    "Eventos Particulares": "Descrição para eventos particulares...",
+    "Arte e Cultura": `
+Transforme seu espaço em um palco de criatividade. No Aflora, criamos vivências artísticas e culturais únicas e personalizadas para empresas, instituições e eventos. Seja uma imersão, um festival, um projeto educativo ou performances artísticas, nossos projetos são pensados para inspirar, engajar e transformar.
+Com um olhar atento para cada detalhe, desenhamos experiências que convidam à reflexão, à interação e à descoberta. Utilizando da pluralidade das linguagens artísticas, transformamos espaços em cenários que conectam pessoas e seus propósitos.
+Juntos, podemos criar experiências memoráveis que farão a diferença.
+
+
+Quer transformar seu espaço em um palco de criatividade? Entre em contato conosco e descubra como podemos te ajudar a realizar seus projetos.
+`,
+    "Eventos Particulares": `
+Cada celebração é um momento único e especial!
+
+No Aflora, transformamos o seu desejo em realidade. Com um serviço completo de cerimonial, coreografia e fotografia, cuidamos de cada detalhe para que o seu grande dia seja inesquecível. Do clássico ao rústico, do moderno ao vintage, personalizamos cada evento para que ele reflita a sua história, seus desejos e o seu estilo.
+Entre em contato conosco e descubra como podemos desenhar um evento que reflita seus gostos, desejos  e atenda às suas necessidades.
+`,
   };
 
   const carouselDescriptions: { [key: string]: string } = {
-    Casamento: "Descrição para casamentos...",
-    "Festa de 18": "Descrição para festas de 15 anos...",
+    "Cristiane e Eduardo": "Fotografia",
+    "Festa de 18":
+      "Abertura de pista com a aniversariante e família + fotografia.",
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
