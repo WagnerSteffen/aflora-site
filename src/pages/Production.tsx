@@ -175,7 +175,9 @@ const Productions = () => {
 
     fetchDataAndCache();
   }, []);
-
+  if (categoriesData) {
+    console.log(categoriesData);
+  }
   const categoryDescriptions: { [key: string]: string } = {
     "Corporativo e Institucional": `
 No Aflora, desenhamos experiências envolventes e dinâmicas, com olhar criativo e artístico, que permita às pessoas se conectarem com os valores da sua marca e desfrutarem de momentos memoráveis.
@@ -205,6 +207,7 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
     "Cristiane e Eduardo": "Fotografia",
     "Festa de 18":
       "Abertura de pista com a aniversariante e família + fotografia.",
+    "Chá de Bebê": "Suporte organização + Mimos personalizados + fotografia",
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {

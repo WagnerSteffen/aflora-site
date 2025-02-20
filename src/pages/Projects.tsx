@@ -134,14 +134,17 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
   }, [bucketName, mainFolder, cacheExpiration]);
 
   const carouselTexts: { [key: string]: string } = {
-    Deslocamentos: "Texto sobre Deslocamentos...",
-    "Oficina APAE": "Texto sobre Oficina APAE...",
-    "Oficina de Arte Floral": "Texto sobre Oficina de Arte Floral...",
-    "Oficina de Bonecas": "Texto sobre Oficina de Bonecas...",
-    "Oficina de Brinquedos": "Texto sobre Oficina de Brinquedos...",
-    "Oficina de Ceramica": "Texto sobre Oficina de Cerâmica...",
-    "Oficina de Dia das Crianças": "Texto sobre Oficina de Dia das Crianças...",
-    "Oficina de Empanadas": "Texto sobre Oficina de Empanadas...",
+    Deslocamentos: "Deslocamentos MEA, 2024",
+    "Oficina APAE":
+      "Oficina de Montagem de Brinquedos com Materiais Reciclados - APAE, 2024",
+    "Oficina de Arte Floral": "Oficina de Arte Floral, com Andréia Vogel, 2024",
+    "Oficina de Bonecas":
+      "Oficina de Bonecas, com Ilária Reis (Ateliê Ilarilariê), 2024",
+    "Oficina de Brinquedos":
+      "Ofina de Montagem de Brinquedos com Materiais Reciclados - MEA, 2024",
+    "Oficina de Ceramica": "Oficina de Cerâmica, com Karen Thiele Campos, 2024",
+    "Oficina de Dia das Crianças": "Ofina de Dia das Crianças, MEA, 2024",
+    "Oficina de Empanadas": "Oficina de Empanadas, com Gustavo Johann, 2024",
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
