@@ -27,6 +27,16 @@ const Projects = () => {
   const scrollThreshold = 50; // Adjust hover threshold as needed
   let scrollTimeout: NodeJS.Timeout | null = null; // For debouncing scroll
 
+  const apresentationText = `
+Acreditamos no poder da arte para transformar vidas e comunidades!
+Desenhamos oficinas e projetos, para todas as idades, explorando diversas linguagens artísticas, do corpo ao pincel, da música à argila. 
+Através de experiências que inspiram a criatividade, o autoconhecimento e a conexão humana.
+Diversidade: Valorizamos a pluralidade de expressões artísticas e o potencial único de cada indivíduo.
+Conexão: Promovemos o encontro entre pessoas e suas próprias capacidades criativas.
+Consciência: Estimulamos a reflexão sobre o mundo e o papel de cada um na sociedade.
+Sustentabilidade: 
+Entre em contato conosco e descubra como podemos desenhar uma experiência para atender às suas necessidades.
+`;
   const carouselMenuItems = carouselsData.map((carousel) => ({
     key: carousel.folderName,
     to: formatFolderNameForId(carousel.folderName),
@@ -168,9 +178,7 @@ const Projects = () => {
         <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
           Projetos e Oficinas
         </h1>
-        <p className="text-center mb-4 mt-4">
-          Esse é um exemplo de subtexto. Aqui pode conter informações diversas
-        </p>
+        <p className="text-center mb-4 mt-4">{apresentationText}</p>
 
         {/* Sticky Navigation - Carousels Menu - Agora usando StickyMenu */}
         <StickyMenu

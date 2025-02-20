@@ -202,8 +202,9 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
   };
 
   const carouselDescriptions: { [key: string]: string } = {
-    Casamento: "Descrição para casamentos...",
-    "Festa de 18": "Descrição para festas de 15 anos...",
+    "Cristiane e Eduardo": "Fotografia",
+    "Festa de 18":
+      "Abertura de pista com a aniversariante e família + fotografia.",
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
