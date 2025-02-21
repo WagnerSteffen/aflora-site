@@ -17,3 +17,57 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+.prose {
+  /* Estilos gerais para o conteúdo Markdown */
+  @apply text-gray-700; /* Exemplo */
+}
+
+.prose p {
+  @apply mb-4; /* Espaçamento entre parágrafos */
+}
+
+.prose h1 {
+  @apply text-4xl font-bold mb-6;
+}
+
+.prose h2 {
+  @apply text-3xl font-semibold mb-4;
+}
+
+.prose h3 {
+  @apply text-2xl font-medium mb-2;
+}
+
+.prose ul {
+  @apply list-disc list-inside mb-4;
+}
+
+.prose ol {
+  @apply list-decimal list-inside mb-4;
+}
+
+.prose li {
+  @apply ml-4;
+}
+
+.prose strong {
+  @apply font-bold;
+}
+
+.prose em {
+  @apply italic;
+}
+
+.prose a {
+  @apply text-blue-600 hover:text-blue-800 underline;
+}
+.prose blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic;
+}
+.prose code {
+  @apply bg-gray-100 text-gray-800 p-1 rounded; /* Estilo inline code */
+}
+
+.prose pre code {
+  @apply block p-2; /* Estilo para blocos de código */
+}

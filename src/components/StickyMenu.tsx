@@ -27,7 +27,7 @@ const StickyMenu: React.FC<StickyMenuProps> = ({
   return (
     <nav
       ref={navRef}
-      className="sticky top-0 z-20 bg-white border-b mb-8 -mx-8 px-8"
+      className="sticky top-0 z-20 bg-white border-b mb-8 -mx-8 px-8 font-work-sans-bold"
       style={style}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}

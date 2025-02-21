@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        body: ["work-sans", "sans-serif"],
         "amatic-sc": ["'Amatic SC'", "cursive"],
         "amatic-sc-bold": ["'Amatic SC'", "cursive"],
         "dm-serif-text": ["'DM Serif Text'", "serif"],
@@ -83,5 +84,7 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate", "tailwind-scrollbar-hide")],
+  plugins: [
+    require("tailwindcss-animate", "tailwind-scrollbar-hide", "@tailwindcss/typography"),
+  ],
 };

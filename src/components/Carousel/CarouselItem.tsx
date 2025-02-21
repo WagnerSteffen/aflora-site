@@ -24,7 +24,7 @@ const CarouselItems: React.FC<CarouselItemProps> = ({
   textPosition = "below",
   descriptions = {},
 }) => {
-  const description = descriptions[folderName] || "Descrição do carrossel...";
+  const description = descriptions[folderName] || "";
   const [fullScreenOpen, setFullScreenOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 

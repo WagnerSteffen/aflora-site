@@ -208,6 +208,9 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
     "Festa de 18":
       "Abertura de pista com a aniversariante e família + fotografia.",
     "Chá de Bebê": "Suporte organização + Mimos personalizados + fotografia",
+    "SIPAT John Deere 2024": "",
+    "Evento aCeli": "",
+    "São José Industrial - Dia da Mulher 2023": "",
   };
 
   const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
@@ -240,10 +243,7 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
         <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center mb-4">
           Produção de Eventos
         </h1>
-        <p className="text-center mb-8 max-w-2xl mx-auto">
-          Esse é um exemplo de subtexto. Aqui pode conter informações diversas
-          sobre os tipos de eventos que realizamos.
-        </p>
+        <p className="text-center mb-8 max-w-2xl mx-auto"></p>
 
         <StickyMenu
           navRef={navRef}
