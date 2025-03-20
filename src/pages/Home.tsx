@@ -18,7 +18,7 @@ const Home = () => {
         {/* Heading */}
         <div className="relative mb-10">
           <h1 className="text-[#3361bf] max-h-[6.7rem] text-[6rem] sm:text-[6rem] md:text-[6rem] lg:text-[6rem] font-work-sans relative z-10">
-            Aflora
+            Aflaora
           </h1>
           <h3 className="text-[#3361bf] text-[2rem] sm:text-[2rem] md:text-[2rem] lg:text-[2rem] font-work-sans relative z-10  ">
             espaço criativo
@@ -35,6 +35,14 @@ const Home = () => {
               Conheça o Aflora
             </Button>
           </Link>
+          <Button
+            variant="default"
+            size="lg"
+            className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+            asChild
+          >
+            <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
+          </Button>
           <Link to="/producoes">
             <Button
               variant="default"
@@ -53,14 +61,6 @@ const Home = () => {
               Projetos e Oficinas Pedagógicas
             </Button>
           </Link>
-          <Button
-            variant="default"
-            size="lg"
-            className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
-            asChild
-          >
-            <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
-          </Button>
           {/* <Link to="/performance"> **/}
           {/*    <Button **/}
           {/*     variant="default" **/}
