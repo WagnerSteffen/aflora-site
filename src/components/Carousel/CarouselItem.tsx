@@ -51,24 +51,26 @@ const CarouselItems: React.FC<CarouselItemProps> = ({
         >
           <CarouselContent>
             {imageUrls.map((url, index) => (
-              <ShadcnCarouselItem key={index} className="w-full aspect-square">
+              <ShadcnCarouselItem
+                key={index}
+                className="w-full aspect-square relative"
+              >
                 <div
-                  className="
-                                        h-full w-full flex justify-center items-center cursor-pointer"
+                  className="h-full w-full flex justify-center items-center cursor-pointer"
                   onClick={() => openFullScreen(index)} // Open fullscreen on image click
                 >
                   <img
                     src={url}
                     alt={`${folderName} - Imagem ${index + 1}`}
                     loading="lazy"
-                    className="object-contain max-h-full max-w-full"
+                    className="object-contain w-full h-auto"
                   />
                 </div>
               </ShadcnCarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 text-white" />
+          <CarouselNext className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 text-white" />
         </Carousel>
       </div>
 

@@ -10,8 +10,7 @@ const Home = () => {
       <div className="flex items-center justify-center pt-8">
         <img
           src={afloraPin}
-          alt="pin do aflora"
-          className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
+          alt="pin do aflora" className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
         />
       </div>
       <div className="flex flex-col text-center items-center justify-top px-4 ">

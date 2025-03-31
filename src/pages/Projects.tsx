@@ -177,11 +177,11 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
   return (
     <Layout>
       {" "}
-      <div className="relative min-h-screen bg-white text-black p-8">
-        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
+      <div className="relative min-h-screen bg-white text-black">
+        <h1 className="mt-4 text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
           Projetos e Oficinas
         </h1>
-        <div className="prose text-justify mb-6 mt-6 lg:mx-[16rem] font-work-sans">
+        <div className="mx-4 prose text-justify mb-6 mt-6 lg:mx-[16rem] font-work-sans">
           {partes.map((parte, index) => {
             if (parte.startsWith("* ")) {
               return <li key={index}>{parte.substring(2)}</li>;
@@ -193,11 +193,11 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
 
         {/* Sticky Navigation - Carousels Menu - Agora usando StickyMenu */}
         <StickyMenu
-          navRef={navRef} // Use a mesma navRef que já estava sendo usada
+          navRef={navRef}
           style={{ top: "64px" }}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          menuItems={carouselMenuItems} // Passa o array de menuItems que criamos
+          menuItems={carouselMenuItems}
           scrollbarHide={true}
         />
 
@@ -208,7 +208,7 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
         )}
 
         {!isLoading && carouselsData.length > 0 && (
-          <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto">
             {carouselsData.map((carousel, index) => {
               // Verifica se o índice é par ou ímpar para alternar a ordem
               const isEven = index % 2 === 0;
@@ -220,7 +220,7 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
                     !isEven && "md:flex-row-reverse"
                   }`}
                 >
-                  <div className="w-full md:w-1/2 px-4">
+                  <div className="w-full md:w-1/2">
                     <CarouselItem
                       showTitle={false}
                       textPosition="side"

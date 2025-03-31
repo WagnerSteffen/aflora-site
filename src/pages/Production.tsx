@@ -239,8 +239,8 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
 
   return (
     <Layout>
-      <div className="relative min-h-screen bg-white text-black p-8">
-        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center mb-4">
+      <div className="relative min-h-screen bg-white text-black">
+        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center my-4">
           Produção de Eventos
         </h1>
         <p className="text-center mb-8 max-w-2xl mx-auto"></p>
@@ -270,7 +270,7 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
               <h2 className="text-3xl font-bold mb-4 text-center">
                 {category.categoryName}
               </h2>
-              <p className="mb-8 text-gray-600 max-w-3xl mx-auto text-center">
+              <p className="mx-4 mb-8 text-gray-600 max-w-3xl text-center">
                 {categoryDescriptions[category.categoryName] ||
                   "Descrição da categoria..."}
               </p>
