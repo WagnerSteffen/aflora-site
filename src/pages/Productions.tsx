@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CarouselItem from "../components/Carousel/CarouselItem";
-import Layout from "../components/Layout";
-import { MouseEvent as ReactMouseEvent } from "react";
-import StickyMenu from "../components/StickyMenu";
-
+import { PageMenuItem } from "../contexts/PageMenuContext";
+import { usePageMenu } from "../hooks/usePageMenu";
 type CarouselData = {
   folderName: string;
   imageUrls: string[];
@@ -133,19 +131,11 @@ async function fetchCategories(
 const Productions = () => {
   const [categoriesData, setCategoriesData] = useState<CategoryData[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const navRef = useRef<HTMLDivElement>(null);
-  const scrollAmount = 40;
-  const scrollThreshold = 50;
-  let scrollTimeout: NodeJS.Timeout | null = null;
-
-  const categoriesMenuItems = categoriesData.map((category) => ({
-    key: category.categoryName,
-    to: formatFolderNameForId(category.categoryName),
-    label: category.categoryName,
-  }));
+  const { setPageMenuItems } = usePageMenu();
 
   useEffect(() => {
     const fetchDataAndCache = async () => {
+      console.log("Productions.tsx - Fetch Effect: Iniciando busca...");
       setIsLoading(true);
 
       const cachedData = localStorage.getItem(CACHE_KEY);
@@ -156,13 +146,19 @@ const Productions = () => {
         cachedTimestamp &&
         Date.now() - Number(cachedTimestamp) < CACHE_EXPIRATION
       ) {
+        console.log("Productions.tsx - Fetch Effect: Usando cache.");
         setCategoriesData(JSON.parse(cachedData));
         setIsLoading(false);
         return;
       }
 
       try {
+        console.log("Productions.tsx - Fetch Effect: Buscando do GCS...");
         const validCategories = await fetchCategories(BUCKET_NAME, MAIN_FOLDER);
+        console.log(
+          "Productions.tsx - Fetch Effect: Dados recebidos:",
+          validCategories,
+        );
         setCategoriesData(validCategories);
         localStorage.setItem(CACHE_KEY, JSON.stringify(validCategories));
         localStorage.setItem(CACHE_KEY + "_timestamp", Date.now().toString());
@@ -170,14 +166,53 @@ const Productions = () => {
         console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
+        console.log("Productions.tsx - Fetch Effect: Busca finalizada.");
       }
     };
 
     fetchDataAndCache();
   }, []);
-  if (categoriesData) {
-    console.log(categoriesData);
-  }
+  useEffect(() => {
+    console.log(
+      "Productions.tsx - Menu Effect: Executando. categoriesData mudou:",
+      categoriesData,
+    );
+
+    // Calcula os itens AQUI, baseado nos dados ATUAIS
+    const calculatedMenuItems: PageMenuItem[] = categoriesData.map(
+      (category) => ({
+        key: category.categoryName,
+        to: formatFolderNameForId(category.categoryName),
+        label: category.categoryName,
+      }),
+    );
+
+    console.log(
+      "Productions.tsx - Menu Effect: Itens calculados:",
+      calculatedMenuItems,
+    );
+
+    if (calculatedMenuItems && calculatedMenuItems.length > 0) {
+      console.log(
+        "Productions.tsx - Menu Effect: CHAMANDO setPageMenuItems com itens.",
+      );
+      setPageMenuItems(calculatedMenuItems);
+    } else {
+      console.log(
+        "Productions.tsx - Menu Effect: Nenhum item para setar, CHAMANDO setPageMenuItems(null).",
+      );
+      setPageMenuItems(null); // Define como null se não houver dados (ex: no estado inicial)
+    }
+
+    // Função de limpeza (ainda necessária)
+    return () => {
+      console.log(
+        "Productions.tsx - Menu Effect: LIMPEZA. Setando menu para null.",
+      );
+      setPageMenuItems(null);
+    };
+    // Dependências: Roda quando categoriesData ou setPageMenuItems mudar.
+  }, [categoriesData, setPageMenuItems]);
   const categoryDescriptions: { [key: string]: string } = {
     "Corporativo e Institucional": `
 No Aflora, desenhamos experiências envolventes e dinâmicas, com olhar criativo e artístico, que permita às pessoas se conectarem com os valores da sua marca e desfrutarem de momentos memoráveis.
@@ -213,91 +248,56 @@ Entre em contato conosco e descubra como podemos desenhar um evento que reflita 
     "São José Industrial - Dia da Mulher 2023": "",
   };
 
-  const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
-    const navElement = navRef.current;
-    if (!navElement) return;
-
-    clearTimeout(scrollTimeout as NodeJS.Timeout);
-
-    const rect = navElement.getBoundingClientRect();
-    const mouseX = e.clientX;
-
-    if (mouseX < rect.left + scrollThreshold) {
-      scrollTimeout = setTimeout(() => {
-        navElement.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      }, 10);
-    } else if (mouseX > rect.right - scrollThreshold) {
-      scrollTimeout = setTimeout(() => {
-        navElement.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }, 10);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    clearTimeout(scrollTimeout as NodeJS.Timeout);
-  };
-
   return (
-    <Layout>
-      <div className="relative min-h-screen bg-white text-black p-8">
-        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center mb-4">
-          Produção de Eventos
-        </h1>
-        <p className="text-center mb-8 max-w-2xl mx-auto"></p>
+    <div className="relative min-h-screen bg-white text-black">
+      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded text-center py-4 bg-white:">
+        Produção de Eventos
+      </h1>
+      <p className="text-center mb-8 max-w-2xl mx-auto"></p>
 
-        <StickyMenu
-          navRef={navRef}
-          style={{ top: "64px" }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          menuItems={categoriesMenuItems}
-          scrollbarHide={true}
-        />
+      {isLoading && (
+        <div className="text-center">
+          <p>Carregando...</p>
+        </div>
+      )}
 
-        {isLoading && (
-          <div className="text-center">
-            <p>Carregando...</p>
-          </div>
-        )}
+      {!isLoading &&
+        categoriesData.map((category) => (
+          <section
+            key={category.categoryName}
+            id={formatFolderNameForId(category.categoryName)}
+            className="mb-16 scroll-mt-16"
+          >
+            <h2 className="text-3xl font-bold mb-4 text-center">
+              {category.categoryName}
+            </h2>
+            <p className="mx-auto px-4 mb-8 text-gray-600 max-w-3xl text-center">
+              {categoryDescriptions[category.categoryName] ||
+                "Descrição da categoria..."}
+            </p>
+            {category.carousels && category.carousels.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {category.carousels.map((carousel) => (
+                  <CarouselItem
+                    key={carousel.folderName}
+                    folderName={carousel.folderName}
+                    imageUrls={carousel.imageUrls}
+                    showTitle={true}
+                    textPosition="below"
+                    descriptions={carouselDescriptions}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        ))}
 
-        {!isLoading &&
-          categoriesData.map((category) => (
-            <section
-              key={category.categoryName}
-              id={formatFolderNameForId(category.categoryName)}
-              className="mb-16 scroll-mt-16"
-            >
-              <h2 className="text-3xl font-bold mb-4 text-center">
-                {category.categoryName}
-              </h2>
-              <p className="mb-8 text-gray-600 max-w-3xl mx-auto text-center">
-                {categoryDescriptions[category.categoryName] ||
-                  "Descrição da categoria..."}
-              </p>
-              {category.carousels && category.carousels.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20">
-                  {category.carousels.map((carousel) => (
-                    <CarouselItem
-                      key={carousel.folderName}
-                      folderName={carousel.folderName}
-                      imageUrls={carousel.imageUrls}
-                      showTitle={true}
-                      textPosition="below"
-                      descriptions={carouselDescriptions}
-                    />
-                  ))}
-                </div>
-              )}
-            </section>
-          ))}
-
-        {!isLoading && categoriesData.length === 0 && (
-          <div className="text-center">
-            <p>Nenhum conteúdo encontrado.</p>
-          </div>
-        )}
-      </div>
-    </Layout>
+      {!isLoading && categoriesData.length === 0 && (
+        <div className="text-center">
+          <p>Nenhum conteúdo encontrado.</p>
+        </div>
+      )}
+    </div>
   );
 };
 

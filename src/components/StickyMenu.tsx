@@ -1,4 +1,10 @@
-import React, { MouseEvent as ReactMouseEvent } from "react";
+import React, {
+  MouseEvent as ReactMouseEvent,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Link } from "react-scroll"; // Assuming you are still using react-scroll for internal page navigation
 
 interface StickyMenuProps {
@@ -23,6 +29,26 @@ const StickyMenu: React.FC<StickyMenuProps> = ({
   scrollbarHide = true, // Default value is true to hide scrollbar if not specified
 }) => {
   const scrollbarClass = scrollbarHide ? "scrollbar-hide" : "";
+  const [isScrollable, setIsScrollable] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (scrollContainerRef.current) {
+        setIsScrollable(
+          scrollContainerRef.current.scrollWidth >
+            scrollContainerRef.current.clientWidth,
+        );
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <nav
@@ -32,21 +58,35 @@ const StickyMenu: React.FC<StickyMenuProps> = ({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
-      <div className={`flex overflow-x-auto space-x-4 py-2 ${scrollbarClass}`}>
-        {menuItems.map((item) => (
-          <div key={item.key} className="flex flex-col">
-            <Link
-              to={item.to}
-              smooth={true}
-              duration={500}
-              offset={-70}
-              className="px-4 py-2 whitespace-nowrap hover:bg-gray-100 rounded"
-            >
-              {item.label}
-            </Link>
-          </div>
-        ))}
+      <div className="relative">
+        {isScrollable && (
+          <FaChevronLeft className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 text-gray-500" />
+        )}
+        <div
+          ref={scrollContainerRef}
+          className={`flex overflow-x-auto space-x-4 py-2 ${scrollbarClass}`}
+        >
+          {menuItems.map((item) => (
+            <div key={item.key} className="flex flex-col">
+              <Link
+                to={item.to}
+                smooth={true}
+                duration={500}
+                offset={-70}
+                className="px-4 py-2 whitespace-nowrap hover:bg-gray-100 rounded"
+              >
+                {item.label}
+              </Link>
+            </div>
+          ))}
+        </div>
+        {isScrollable && (
+          <FaChevronRight className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 text-gray-500" />
+        )}
       </div>
+      {isScrollable && (
+        <FaChevronRight className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 text-gray-500" />
+      )}
     </nav>
   );
 };

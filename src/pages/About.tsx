@@ -1,4 +1,3 @@
-import Layout from "../components/Layout";
 import PersonInfo from "../components/PersonInfo"; // Importe o componente
 
 const About = () => {
@@ -22,36 +21,34 @@ No Aflora Espaço Criativo, Wagner é responsável por diversos projetos e açõ
 A filosofia o leva a questionar e buscar o sentido das coisas, e a tecnologia o impulsiona a inovar e explorar novas possibilidades. Wagner Steffen de Morais é a prova de que diferentes áreas de conhecimento podem se complementar e enriquecer um indivíduo, transformando-o em um profissional completo e diferenciado.
 `;
   return (
-    <Layout>
-      <div className="relative min-h-screen bg-white text-black pt-4">
-        <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center pb-4">
-          Sobre Nós
-        </h1>
-        <div className="bg-gray-100 py-2">
-          <PersonInfo
-            imageUrl={wagnerImageUrl}
-            name="Wagner"
-            text={wagnerText}
-            textAlign="justify"
-            imgAlign="center"
-            imageOnLeft={false}
-          />
-        </div>
-        <div className="p-8">
-          <p></p>
-        </div>
-        <div className="bg-gray-100 pt-2">
-          <PersonInfo
-            imageUrl={daiaImageUrl}
-            name="Daia"
-            text={daiaText}
-            textAlign="justify"
-            imgAlign="center"
-            imageOnLeft={true}
-          />
-        </div>
+    <div className="relative min-h-screen bg-white text-black pt-4">
+      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center pb-4">
+        Sobre Nós
+      </h1>
+      <div className="bg-gray-100 py-2">
+        <PersonInfo
+          imageUrl={wagnerImageUrl}
+          name="Wagner"
+          text={wagnerText}
+          textAlign="justify"
+          imgAlign="center"
+          imageOnLeft={false}
+        />
       </div>
-    </Layout>
+      <div className="p-8">
+        <p></p>
+      </div>
+      <div className="bg-gray-100 pt-2">
+        <PersonInfo
+          imageUrl={daiaImageUrl}
+          name="Daia"
+          text={daiaText}
+          textAlign="justify"
+          imgAlign="center"
+          imageOnLeft={true}
+        />
+      </div>
+    </div>
   );
 };
 

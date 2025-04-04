@@ -55,7 +55,7 @@ const FullScreenCarousel: React.FC<FullScreenCarouselProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm overflow-x-auto"
       onClick={onClose}
       ref={containerRef}
     >
