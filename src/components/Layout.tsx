@@ -1,16 +1,18 @@
 import React from "react";
-import Header from "./header/Header"; // Importe o componente Header que você criou
+import Header from "./header/Header";
+import { PageMenuProvider } from "../contexts/PageMenuContext";
+import { Outlet } from "react-router-dom";
 
-interface LayoutProps {
-  children: React.ReactNode; // Define que Layout recebe 'children' como prop
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout = () => {
   return (
-    <div>
-      <Header />
-      <main>{children}</main>
-    </div>
+    <PageMenuProvider>
+      <div>
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+      </div>
+    </PageMenuProvider>
   );
 };
 

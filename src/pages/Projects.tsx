@@ -1,8 +1,5 @@
-import Layout from "../components/Layout.tsx";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import CarouselItem from "../components/Carousel/CarouselItem";
-import { MouseEvent as ReactMouseEvent } from "react"; // Import MouseEvent from React
-import StickyMenu from "../components/StickyMenu.tsx"; // Certifique-se que o caminho está correto
 
 type CarouselData = {
   folderName: string;
@@ -22,10 +19,6 @@ const Projects = () => {
   const mainFolder = "images/oficinaseprojetos/MEA";
   const cacheKey = "carouselsData";
   const cacheExpiration = 60 * 60 * 1000; // 1 hora em milissegundos
-  const navRef = useRef<HTMLDivElement>(null); // Create a ref for the nav element
-  const scrollAmount = 40; // Adjust scroll amount as needed
-  const scrollThreshold = 50; // Adjust hover threshold as needed
-  let scrollTimeout: NodeJS.Timeout | null = null; // For debouncing scroll
 
   const apresentationText = `
 Acreditamos no poder da arte para transformar vidas e comunidades!
@@ -37,11 +30,6 @@ Desenhamos oficinas e projetos, para todas as idades, explorando diversas lingua
 Entre em contato conosco e descubra como podemos desenhar uma experiência para atender às suas necessidades.
 `;
   const partes = apresentationText.split("\n");
-  const carouselMenuItems = carouselsData.map((carousel) => ({
-    key: carousel.folderName,
-    to: formatFolderNameForId(carousel.folderName),
-    label: carousel.folderName,
-  }));
 
   useEffect(() => {
     const fetchCarouselData = async () => {
@@ -147,107 +135,67 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
     "Oficina de Empanadas": "Oficina de Empanadas, com Gustavo Johann, 2024",
   };
 
-  const handleMouseMove = (e: ReactMouseEvent<HTMLElement>) => {
-    // Use ReactMouseEvent here
-    const navElement = navRef.current;
-    if (!navElement) return;
-
-    clearTimeout(scrollTimeout as NodeJS.Timeout); // Clear previous timeout for debouncing
-
-    const rect = navElement.getBoundingClientRect();
-    const mouseX = e.clientX;
-
-    if (mouseX < rect.left + scrollThreshold) {
-      // Hovering near left edge
-      scrollTimeout = setTimeout(() => {
-        navElement.scrollBy({ left: -scrollAmount, behavior: "smooth" });
-      }, 10); // Small delay for smoother scroll - adjust as needed
-    } else if (mouseX > rect.right - scrollThreshold) {
-      // Hovering near right edge
-      scrollTimeout = setTimeout(() => {
-        navElement.scrollBy({ left: scrollAmount, behavior: "smooth" });
-      }, 10); // Small delay for smoother scroll - adjust as needed
-    }
-  };
-
-  const handleMouseLeave = () => {
-    clearTimeout(scrollTimeout as NodeJS.Timeout); // Stop scrolling on mouse leave
-  };
-
   return (
-    <Layout>
-      {" "}
-      <div className="relative min-h-screen bg-white text-black">
-        <h1 className="mt-4 text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
-          Projetos e Oficinas
-        </h1>
-        <div className="mx-4 prose text-justify mb-6 mt-6 lg:mx-[16rem] font-work-sans">
-          {partes.map((parte, index) => {
-            if (parte.startsWith("* ")) {
-              return <li key={index}>{parte.substring(2)}</li>;
-            } else {
-              return <p key={index}>{parte}</p>;
-            }
+    <div className="relative min-h-screen bg-white text-black">
+      <h1 className="pt-4 text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
+        Projetos e Oficinas
+      </h1>
+      <div className="mx-4 prose text-justify mb-6 mt-6 lg:mx-[16rem] font-work-sans">
+        {partes.map((parte, index) => {
+          if (parte.startsWith("* ")) {
+            return <li key={index}>{parte.substring(2)}</li>;
+          } else {
+            return <p key={index}>{parte}</p>;
+          }
+        })}
+      </div>
+
+      {isLoading && (
+        <div className="text-center">
+          <p>Carregando...</p>
+        </div>
+      )}
+
+      {!isLoading && carouselsData.length > 0 && (
+        <div className="mx-auto">
+          {carouselsData.map((carousel, index) => {
+            // Verifica se o índice é par ou ímpar para alternar a ordem
+            const isEven = index % 2 === 0;
+            return (
+              <div
+                key={carousel.folderName}
+                id={formatFolderNameForId(carousel.folderName)}
+                className={`flex flex-col md:flex-row items-center mb-12 ${
+                  !isEven && "md:flex-row-reverse"
+                }`}
+              >
+                <div className="w-full md:w-1/2">
+                  <CarouselItem
+                    showTitle={false}
+                    textPosition="side"
+                    folderName={carousel.folderName}
+                    imageUrls={carousel.imageUrls}
+                    descriptions={carouselTexts}
+                  />
+                </div>
+                <div className="w-full md:w-1/2 px-4">
+                  <p className="text-center">
+                    {carouselTexts[carousel.folderName] ||
+                      "Texto padrão para este carrossel..."}
+                  </p>
+                </div>
+              </div>
+            );
           })}
         </div>
+      )}
 
-        {/* Sticky Navigation - Carousels Menu - Agora usando StickyMenu */}
-        <StickyMenu
-          navRef={navRef}
-          style={{ top: "64px" }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          menuItems={carouselMenuItems}
-          scrollbarHide={true}
-        />
-
-        {isLoading && (
-          <div className="text-center">
-            <p>Carregando...</p>
-          </div>
-        )}
-
-        {!isLoading && carouselsData.length > 0 && (
-          <div className="mx-auto">
-            {carouselsData.map((carousel, index) => {
-              // Verifica se o índice é par ou ímpar para alternar a ordem
-              const isEven = index % 2 === 0;
-              return (
-                <div
-                  key={carousel.folderName}
-                  id={formatFolderNameForId(carousel.folderName)}
-                  className={`flex flex-col md:flex-row items-center mb-12 ${
-                    !isEven && "md:flex-row-reverse"
-                  }`}
-                >
-                  <div className="w-full md:w-1/2">
-                    <CarouselItem
-                      showTitle={false}
-                      textPosition="side"
-                      folderName={carousel.folderName}
-                      imageUrls={carousel.imageUrls}
-                      descriptions={carouselTexts}
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2 px-4">
-                    <p className="text-center">
-                      {carouselTexts[carousel.folderName] ||
-                        "Texto padrão para este carrossel..."}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {!isLoading && carouselsData.length === 0 && (
-          <div className="text-center">
-            <p>Nenhum carrossel encontrado.</p>
-          </div>
-        )}
-      </div>
-    </Layout>
+      {!isLoading && carouselsData.length === 0 && (
+        <div className="text-center">
+          <p>Nenhum carrossel encontrado.</p>
+        </div>
+      )}
+    </div>
   );
 };
 
