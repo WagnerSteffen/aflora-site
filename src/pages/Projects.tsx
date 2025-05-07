@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
+<<<<<<< Updated upstream
 import CarouselItem from "../components/Carousel/CarouselItem";
+=======
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import CarouselItem from "../components/ui/carouselItem";
+>>>>>>> Stashed changes
 
 type CarouselData = {
   folderName: string;
@@ -8,10 +13,13 @@ type CarouselData = {
 
 const DELIMITER = "/";
 
+<<<<<<< Updated upstream
 const formatFolderNameForId = (folderName: string): string => {
   return folderName.toLowerCase().replace(/\s+/g, "-");
 };
 
+=======
+>>>>>>> Stashed changes
 const Projects = () => {
   const [carouselsData, setCarouselsData] = useState<CarouselData>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -20,6 +28,7 @@ const Projects = () => {
   const cacheKey = "carouselsData";
   const cacheExpiration = 60 * 60 * 1000; // 1 hora em milissegundos
 
+<<<<<<< Updated upstream
   const apresentationText = `
 Acreditamos no poder da arte para transformar vidas e comunidades!
 Desenhamos oficinas e projetos, para todas as idades, explorando diversas linguagens artísticas, do corpo ao pincel, da música à argila. Através de experiências que inspiram a criatividade, o autoconhecimento e a conexão humana.
@@ -31,6 +40,8 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
 `;
   const partes = apresentationText.split("\n");
 
+=======
+>>>>>>> Stashed changes
   useEffect(() => {
     const fetchCarouselData = async () => {
       setIsLoading(true);
@@ -119,6 +130,7 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
     };
 
     fetchCarouselData();
+<<<<<<< Updated upstream
   }, [bucketName, mainFolder, cacheExpiration]);
 
   const carouselTexts: { [key: string]: string } = {
@@ -149,6 +161,29 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
           }
         })}
       </div>
+=======
+  }, [bucketName, mainFolder]);
+
+  const carouselTexts: { [key: string]: string } = {
+    Deslocamentos: "Texto sobre Deslocamentos...",
+    "Oficina APAE": "Texto sobre Oficina APAE...",
+    "Oficina de Arte Floral": "Texto sobre Oficina de Arte Floral...",
+    "Oficina de Bonecas": "Texto sobre Oficina de Bonecas...",
+    "Oficina de Brinquedos": "Texto sobre Oficina de Brinquedos...",
+    "Oficina de Ceramica": "Texto sobre Oficina de Cerâmica...",
+    "Oficina de Dia das Crianças": "Texto sobre Oficina de Dia das Crianças...",
+    "Oficina de Empanadas": "Texto sobre Oficina de Empanadas...",
+  };
+
+  return (
+    <div className="relative min-h-screen bg-white text-black p-8">
+      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-[8rem] font-unbounded relative z-10 text-center">
+        Projetos e Oficinas
+      </h1>
+      <p className="text-center mb-4 mt-4">
+        Esse é um exemplo de subtexto. Aqui pode conter informações diversas
+      </p>
+>>>>>>> Stashed changes
 
       {isLoading && (
         <div className="text-center">
@@ -157,6 +192,7 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
       )}
 
       {!isLoading && carouselsData.length > 0 && (
+<<<<<<< Updated upstream
         <div className="mx-auto">
           {carouselsData.map((carousel, index) => {
             // Verifica se o índice é par ou ímpar para alternar a ordem
@@ -165,10 +201,21 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
               <div
                 key={carousel.folderName}
                 id={formatFolderNameForId(carousel.folderName)}
+=======
+        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+          {carouselsData.map((carousel, index) => {
+            // Verifica se o índice é par ou ímpar para alternar a ordem
+            const isEven = index % 2 === 0;
+
+            return (
+              <div
+                key={carousel.folderName}
+>>>>>>> Stashed changes
                 className={`flex flex-col md:flex-row items-center mb-12 ${
                   !isEven && "md:flex-row-reverse"
                 }`}
               >
+<<<<<<< Updated upstream
                 <div className="w-full md:w-1/2">
                   <CarouselItem
                     showTitle={false}
@@ -176,6 +223,12 @@ Entre em contato conosco e descubra como podemos desenhar uma experiência para 
                     folderName={carousel.folderName}
                     imageUrls={carousel.imageUrls}
                     descriptions={carouselTexts}
+=======
+                <div className="w-full md:w-1/2 px-4">
+                  <CarouselItem
+                    folderName={carousel.folderName}
+                    imageUrls={carousel.imageUrls}
+>>>>>>> Stashed changes
                   />
                 </div>
                 <div className="w-full md:w-1/2 px-4">

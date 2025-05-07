@@ -24,16 +24,25 @@ const Home = () => {
           </h3>
         </div>
         {/* Link Boxes */}
+<<<<<<< Updated upstream
         <div className="flex flex-col gap-2">
           <Link to="/sobre">
             <Button
               variant="default"
               size="default"
               className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+=======
+        <div className="w-full max-w-sm flex flex-col gap-4">
+          <Link to="/sobre">
+            <Button
+              variant="default"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+>>>>>>> Stashed changes
             >
               Conheça o Aflora
             </Button>
           </Link>
+<<<<<<< Updated upstream
           <Button
             variant="default"
             size="lg"
@@ -42,6 +51,8 @@ const Home = () => {
           >
             <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
           </Button>
+=======
+>>>>>>> Stashed changes
           <Link to="/producoes">
             <Button
               variant="default"
@@ -60,6 +71,7 @@ const Home = () => {
               Projetos e Oficinas Pedagógicas
             </Button>
           </Link>
+<<<<<<< Updated upstream
           {/* <Link to="/performance"> **/}
           {/*    <Button **/}
           {/*     variant="default" **/}
@@ -69,6 +81,24 @@ const Home = () => {
           {/*       Performance Artística **/}
           {/*    </Button> **/}
           {/*  </Link> **/}
+=======
+          <Link to="/fotografia">
+            <Button
+              variant="default"
+              className="w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+            >
+              Fotografia
+            </Button>
+          </Link>
+          <Link to="/performance">
+            <Button
+              variant="default"
+              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+            >
+              Performance Artística
+            </Button>
+          </Link>
+>>>>>>> Stashed changes
         </div>
       </div>
     </div>
