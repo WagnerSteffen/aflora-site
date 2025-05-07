@@ -22,10 +22,7 @@
     "react-icons": "^5.5.0",
     "react-image": "^4.1.0",
     "react-intersection-observer": "^9.15.1",
-<<<<<<< Updated upstream
     "react-markdown": "^10.0.0",
-=======
->>>>>>> Stashed changes
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.28.0",
     "react-scroll": "^1.9.0",
