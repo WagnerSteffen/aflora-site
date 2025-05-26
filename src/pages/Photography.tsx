@@ -14,7 +14,7 @@ const Photography = () => {
       <Img
         src={path}
         alt={`Imagem xyz`}
-        className="w-full h-auto object-cover border-4 border-white"
+        className="w-auto max-h-96 object-cover border-4 border-white items-center align-middle"
         loader={<div className="animate-pulse w-full h-40 bg-gray-300"></div>}
         unloader={<p className="text-red-500">Erro ao carregar a imagem.</p>} // Mensagem de erro
       />
