@@ -24,22 +24,30 @@ const PersonInfo: React.FC<PersonInfoProps> = ({
 }) => {
   return (
     <div
-      className={`flex ${imageOnLeft ? "flex-row" : "flex-row-reverse"} items-${imgAlign} text-${textAlign} w-full`}
+      className={`flex ${
+        imageOnLeft ? "flex-col md:flex-row" : "flex-col md:flex-row-reverse"
+      } items-${imgAlign} text-${textAlign} w-full`}
     >
-      <div className="w-1/2 pb-8 flex justify-center">
+      {/* Imagem */}
+      <div className="w-full md:w-1/2 pb-4 md:pb-8 flex justify-center">
         <img
           src={imageUrl}
           alt={name}
-          className="max-w-full h-auto max-h-[30rem]" // Imagem responsiva
+          className="max-w-full h-auto max-h-[20rem] md:max-h-[30rem]" // Imagem responsiva, altura ajustada para mobile
         />
       </div>
-      <div className="w-1/2 p-8 prose">
+
+      {/* Texto */}
+      <div className="w-full md:w-1/2 p-4 md:p-8 prose">
         <ReactMarkdown
           rehypePlugins={[rehypeRaw, rehypeSanitize]}
           remarkPlugins={[remarkGfm]}
           components={{
             h1: ({ children, ...props }) => (
-              <h1 className="text-3xl font-bold mb-2" {...props}>
+              <h1
+                className="text-2xl md:text-3xl font-bold mb-2" // Tamanho da fonte ajustado para mobile
+                {...props}
+              >
                 {children}
               </h1>
             ),
@@ -48,7 +56,6 @@ const PersonInfo: React.FC<PersonInfoProps> = ({
                 {children}
               </p>
             ),
-            // Outros componentes
           }}
         >
           {text}
