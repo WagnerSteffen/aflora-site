@@ -44,6 +44,24 @@ const Home = () => {
           >
             <Link to="https://wagnersteffen.alboompro.com/">Fotografia</Link>
           </Button>
+          <Link to="/producoes">
+            <Button
+              variant="default"
+              size="lg"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+            >
+              Produção de Eventos
+            </Button>
+          </Link>
+          <Link to="/projetoseoficinas">
+            <Button
+              variant="default"
+              size="lg"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
+            >
+              Projetos e Oficinas Pedagógicas
+            </Button>
+          </Link>
           {/* <Link to="/performance"> **/}
           {/*    <Button **/}
           {/*     variant="default" **/}
@@ -53,23 +71,6 @@ const Home = () => {
           {/*       Performance Artística **/}
           {/*    </Button> **/}
           {/*  </Link> **/}
-
-          <Link to="/fotografia">
-            <Button
-              variant="default"
-              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
-            >
-              Fotografia
-            </Button>
-          </Link>
-          <Link to="/performance">
-            <Button
-              variant="default"
-              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
-            >
-              Performance Artística
-            </Button>
-          </Link>
         </div>
       </div>
     </div>
