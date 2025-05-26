@@ -10,14 +10,15 @@ const Home = () => {
       <div className="flex items-center justify-center pt-8">
         <img
           src={afloraPin}
-          alt="pin do aflora" className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
+          alt="pin do aflora"
+          className="max-h-48 sm:max-h-48 md:max-h-56 lg:max-h-56 max-w-auto"
         />
       </div>
       <div className="flex flex-col text-center items-center justify-top px-4 ">
         {/* Heading */}
         <div className="relative mb-10">
           <h1 className="text-[#3361bf] max-h-[6.7rem] text-[6rem] sm:text-[6rem] md:text-[6rem] lg:text-[6rem] font-work-sans relative z-10">
-            Aflaora
+            Aflora
           </h1>
           <h3 className="text-[#3361bf] text-[2rem] sm:text-[2rem] md:text-[2rem] lg:text-[2rem] font-work-sans relative z-10  ">
             espaço criativo
@@ -31,7 +32,6 @@ const Home = () => {
               variant="default"
               size="default"
               className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
-
             >
               Conheça o Aflora
             </Button>
@@ -59,7 +59,7 @@ const Home = () => {
           <Link to="/fotografia">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8]  hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Fotografia
             </Button>
@@ -67,7 +67,7 @@ const Home = () => {
           <Link to="/performance">
             <Button
               variant="default"
-              className="w-full bg-[#7802c8] hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl"
+              className="w-full h-12 bg-[#7802c8] hover:bg-[#A62E9E] text-white font-bold py-4 px-6 rounded-xl"
             >
               Performance Artística
             </Button>
